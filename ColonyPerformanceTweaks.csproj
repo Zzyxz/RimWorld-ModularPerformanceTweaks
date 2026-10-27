@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RimWorldVersion Condition="'$(RimWorldVersion)' == ''">1.7</RimWorldVersion>
+    <TargetFramework Condition="'$(RimWorldVersion)' == '1.6'">net472</TargetFramework>
+    <TargetFramework Condition="'$(RimWorldVersion)' == '1.7'">net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>ColonyPerformanceTweaks</RootNamespace>
+    <AssemblyName>ColonyPerformanceTweaks</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>true</Deterministic>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\ColonyPerformanceTweaks\$(RimWorldVersion)\Assemblies\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <HarmonyModDir>D:\SteamLibrary\steamapps\workshop\content\294100\2009463077</HarmonyModDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin\**;obj\**" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(RimWorldVersion)' == '1.6'">
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4523" />
+    <PackageReference Include="Lib.Harmony" Version="2.3.6" ExcludeAssets="runtime" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(RimWorldVersion)' == '1.7'">
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.4977-alpha.2" />
+    <Reference Include="0Harmony">
+      <HintPath>$(HarmonyModDir)\1.7\Assemblies\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
