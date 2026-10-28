@@ -38,7 +38,7 @@ public abstract class Tweak
         catch (Exception e)
         {
             Problem = e.Message;
-            Log.Warning("[Modular Performance Tweaks] " + Id + " is not active: " + e.Message);
+            Log.Warning("[Modular Performance Tweaks] " + Id + " is not active: " + e);
         }
     }
 
@@ -94,7 +94,7 @@ public class ColonyPerformanceTweaksMod : Mod
         }
         catch (Exception e)
         {
-            Log.Warning("[Modular Performance Tweaks] Leaving a game is not watched: " + e.Message);
+            Log.Warning("[Modular Performance Tweaks] Leaving a game is not watched: " + e);
         }
     }
 

@@ -12,14 +12,14 @@ public sealed class PenFoodCacheTweak : Tweak
     public override string Id => "PenFoodCache";
     public override string Category => "CPT_CategoryAnimals";
 
-    public struct Key
+    public record struct Key
     {
         public bool Valid;
         public int Pen, Race, LifeStage, Policy, Area, Flags;
     }
 
     private static PenFoodCacheTweak instance;
-    private static readonly Dictionary<int, Dictionary<(int pen, int race, int stage, int policy, int area, int flags), int>> byMap = new();
+    private static readonly Dictionary<int, Dictionary<Key, int>> byMap = new();
     private static long checkedCount, skipped, remembered, cleared;
 
     protected override void Apply(Harmony harmony)
@@ -99,7 +99,7 @@ public sealed class PenFoodCacheTweak : Tweak
         {
             return false;
         }
-        if (!entries.TryGetValue((key.Pen, key.Race, key.LifeStage, key.Policy, key.Area, key.Flags), out int until))
+        if (!entries.TryGetValue(key, out int until))
         {
             return false;
         }
@@ -110,13 +110,13 @@ public sealed class PenFoodCacheTweak : Tweak
     {
         if (!byMap.TryGetValue(map.uniqueID, out var entries))
         {
-            entries = new Dictionary<(int, int, int, int, int, int), int>();
+            entries = new Dictionary<Key, int>();
             byMap[map.uniqueID] = entries;
         }
         int now = Find.TickManager.TicksGame;
         if (entries.Count > 256)
         {
-            var expired = new List<(int, int, int, int, int, int)>();
+            var expired = new List<Key>();
             foreach (var kv in entries)
             {
                 if (kv.Value <= now)
@@ -129,7 +129,7 @@ public sealed class PenFoodCacheTweak : Tweak
                 entries.Remove(k);
             }
         }
-        entries[(key.Pen, key.Race, key.LifeStage, key.Policy, key.Area, key.Flags)] = now + ColonyPerformanceTweaksMod.Settings.penFoodRememberTicks;
+        entries[key] = now + ColonyPerformanceTweaksMod.Settings.penFoodRememberTicks;
         remembered++;
     }
 
