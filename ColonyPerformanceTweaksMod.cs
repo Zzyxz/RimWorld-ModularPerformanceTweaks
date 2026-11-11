@@ -72,6 +72,7 @@ public class ColonyPerformanceTweaksMod : Mod
         new GatherableBatchingTweak(),
         new MeleeAnimationIdleTweak(),
         new CalmFleeTweak(),
+        new EnemyScanTweak(),
         new ApparelPickTweak(),
         new ItemAccessibilityTweak(),
     };
